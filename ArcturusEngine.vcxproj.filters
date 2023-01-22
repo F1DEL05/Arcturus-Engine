@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{bc3ceca2-d59b-4eaf-80a5-b7639d593af9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Headers">
+      <UniqueIdentifier>{a6edc50e-ce6c-4845-bd14-8ecff2261242}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Source">
+      <UniqueIdentifier>{89832d2e-bf40-4134-8a69-15836f3c1a55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Shaders">
+      <UniqueIdentifier>{703b1830-ddeb-4535-af27-500e24270f85}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SoundEngine.cpp">
+      <Filter>Engine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowClass.cpp">
+      <Filter>Engine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Engine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source_Main.cpp">
+      <Filter>Engine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Engine\Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SoundEngine.hpp">
+      <Filter>Engine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowClass.hpp">
+      <Filter>Engine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.hpp">
+      <Filter>Engine\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.hpp">
+      <Filter>Engine\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\vshader.glsl">
+      <Filter>Engine\Shaders</Filter>
+    </None>
+    <None Include="Shaders\fshader.glsl">
+      <Filter>Engine\Shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
