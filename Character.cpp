@@ -20,14 +20,19 @@ void Character::move() {
 		start_pos += glm::vec3(-speed,0.0f,0.0f);
 		break;
 	case Character::DIRECTION_UP:
-		//------------------------
-		//-----------------------
-		//Gravity will be added
-		//-----------------------
-		//------------------------
+		start_pos += glm::vec3(0.0f, speed, 0.0f);
+		break;
+	case Character::DIRECTION_DOWN:
+		start_pos += glm::vec3(0.0f, -speed, 0.0f);
 		break;
 	}
 }
 glm::vec3 Character::getPosition() {
 	return start_pos;
+}
+void Character::SetRotation(float angle) {
+	matrix3_rotation = glm::rotate(glm::mat3(1), glm::radians(angle));
+}
+glm::mat3 Character::GetRotationMatrix() {
+	return matrix3_rotation;
 }

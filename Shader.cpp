@@ -72,3 +72,9 @@ void Shader::SetVec3(std::string uniform_var_name,glm::vec3 vector3) {
 void Shader::SetVec4(std::string uniform_var_name,glm::vec4 vector4) {
 	glUniform4f(var_List[uniform_var_name], vector4.r, vector4.g, vector4.b,vector4.a);
 }
+void Shader::SetMat3(std::string uniform_var_name, glm::mat3 *matrix3x1) {
+	glUniformMatrix3fv(var_List[uniform_var_name], 1, false,(GLfloat*)matrix3x1);
+}
+unsigned int Shader::getProgram() {
+	return programID;
+}

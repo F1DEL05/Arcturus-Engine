@@ -6,6 +6,8 @@
 #include <map>
 #include<glm/vec3.hpp>
 #include<glm/vec4.hpp>
+#include<glm/gtx/matrix_transform_2d.hpp>
+#include<glm/mat3x3.hpp>
 class Shader {
 public:
 	enum SHADER_TYPE
@@ -19,10 +21,12 @@ public:
 	void DeleteProgram();
 	void DeleteShaders();
 	void UseProgram();
+	unsigned int getProgram();
 	//------------------------
 	void ConnectUniformVariable(std::string uniform_var_name);
 	void SetVec3(std::string uniform_var_name,glm::vec3 vector3);
 	void SetVec4(std::string uniform_var_name,glm::vec4 vector4);
+	void SetMat3(std::string uniform_var_name, glm::mat3 *matrix3x1);
 private:
 	void Program_Link_Exception();
 	void Shader_Compile_Exception(Shader::SHADER_TYPE shaderType);
