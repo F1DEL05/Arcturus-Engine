@@ -1,3 +1,2 @@
 ﻿  Source_Main.cpp
-G:\ArcturusEngine\Source_Main.cpp(72,12): warning C4101: 'matrix': yerel değişken başvurusu kaldırıldı
   ArcturusEngine.vcxproj -> G:\ArcturusEngine\Debug\ArcturusEngine.exe

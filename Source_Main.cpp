@@ -7,46 +7,48 @@
 #include<cstdlib>
 float length = 0.1f;
 float vertices[] = {
-	 length / 2, length / 2,0.0f,
-	 length / 2,-length / 2,0.0f,
-	-length / 2,-length / 2,0.0f,
-	 length / 2, length / 2,0.0f,
-	-length / 2,length / 2,0.0f,
-	-length / 2,-length / 2,0.0f
+	-length / 2,length / 2,
+	-length / 2,-length / 2,
+	length / 2,length / 2,
+	length / 2,-length / 2
+};
+unsigned int indices[] = {
+	0,1,2,
+	2,3,1
 };
 std::vector<Character*> vec1, vec2;
 void drawA(Shader& program, std::vector<Character*>& vec1, glm::vec4 color) {
 	for (auto vec : vec1)
 	{
-		glm::mat3 a = vec->GetRotationMatrix();
+		glm::mat3 a = vec->GetRotationMatrix() * vec->GetScale();
 		program.SetVec3("uMove", vec->getPosition());
 		program.SetVec4("uColor", color);
 		program.SetMat3("uMtx", &a);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, indices);
 	}
 }
-void moveA(Character::DIRECTION dir) {
-	for (auto next : vec1)
-	{
-		next->setDirection(dir);
-		next->move();
-	}
-}
-void moveB(Character::DIRECTION dir) {
-	for (auto next : vec2)
-	{
-		next->setDirection(dir);
-		next->move();
-	}
-}
+
 void rotate(std::vector<Character*>& vector, float& angle) {
 	for (auto next : vector)
 	{
 		next->SetRotation(angle);
 	}
 }
+void scale(std::vector<Character*> vector1, glm::vec2 vector) {
+	for (auto next : vector1)
+	{
+		next->SetScale(vector);
+	}
+}
+void move(std::vector<Character*> vector1, Character::DIRECTION dir) {
+	for (auto next : vector1)
+	{
+		next->SetDirection(dir);
+		next->move();
+	}
+}
 int main() {
-	Window window(700, 700, "Arcturus Engine", GL_FALSE, 3, 3);
+	Window window(800, 600, "Arcturus Engine", GL_FALSE, 3, 3);
 	window.StartGL();
 
 	Shader program;
@@ -55,21 +57,26 @@ int main() {
 	program.Link();
 	program.DeleteShaders();
 	//*----------------------------------------
-	unsigned int vao, vbo;
+	unsigned int vao, vbo, ibo;
 	glGenVertexArrays(1, &vao);
 	glGenBuffers(1, &vbo);
+	glGenBuffers(1, &ibo);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * (sizeof(GL_FLOAT)), 0);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ibo), &ibo, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * (sizeof(GL_FLOAT)), 0);
+
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	//*------------------------------------------
 
-	glm::mat3 transform(1);
+
 	float angle = 15.0f;
-	glm::mat3 matrix;
 
 
 	program.ConnectUniformVariable("uMove");
@@ -83,14 +90,8 @@ int main() {
 	sound.playSound("a.mp3");
 
 	float seed = 0.0f;
-	vec1.push_back(new Character(speed, -0.5f, 0.0f, Character::DIRECTION_RIGHT));
-	vec1.push_back(new Character(speed, -0.5f, 0.5f, Character::DIRECTION_RIGHT));
-	vec1.push_back(new Character(speed, 0.0f, 0.5f, Character::DIRECTION_RIGHT));
-	vec1.push_back(new Character(speed, 0.0f, 0.0f, Character::DIRECTION_RIGHT));
-	vec2.push_back(new Character(speed, 0.5f, 0.0f, Character::DIRECTION_RIGHT));
-	vec2.push_back(new Character(speed, 0.5f, -0.5f, Character::DIRECTION_RIGHT));
-	vec2.push_back(new Character(speed, 0.0f, -0.5f, Character::DIRECTION_RIGHT));
-	vec2.push_back(new Character(speed, 0.0f, 0.0f, Character::DIRECTION_RIGHT));
+	float scalex = 1.0f;
+	vec1.push_back(new Character(speed, 0.0f, 0.0f));
 	while (!window.Check_windowClose()) {
 		if (glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE))
 		{
@@ -101,63 +102,70 @@ int main() {
 		}
 		if (glfwGetKey(window.getWindow(), GLFW_KEY_RIGHT))
 		{
-			moveA(Character::DIRECTION_RIGHT);
+			move(vec1, Character::DIR_R);
 		}
 		if (glfwGetKey(window.getWindow(), GLFW_KEY_LEFT))
 		{
-			moveA(Character::DIRECTION_LEFT);
+			move(vec1, Character::DIR_L);
 		}
 		if (glfwGetKey(window.getWindow(), GLFW_KEY_UP))
 		{
-			moveA(Character::DIRECTION_UP);
+			move(vec1, Character::DIR_U);
 		}
 		if (glfwGetKey(window.getWindow(), GLFW_KEY_DOWN))
 		{
-			moveA(Character::DIRECTION_DOWN);
+			move(vec1, Character::DIR_D);
 		}
-		if (glfwGetKey(window.getWindow(), GLFW_KEY_W))
-		{
-			moveB(Character::DIRECTION_UP);
-		}if (glfwGetKey(window.getWindow(), GLFW_KEY_A))
-		{
-			moveB(Character::DIRECTION_LEFT);
-		}if (glfwGetKey(window.getWindow(), GLFW_KEY_S))
-		{
-			moveB(Character::DIRECTION_DOWN);
-		}if (glfwGetKey(window.getWindow(), GLFW_KEY_D))
-		{
-			moveB(Character::DIRECTION_RIGHT);
-		}
+
 		if (glfwGetKey(window.getWindow(), GLFW_KEY_O))
 		{
 			if (abs(speedrotate) == 45)
+			{
+				
+			}
+			else {
+				speedrotate++;
+			}std::cout << std::endl << speedrotate << "derece";
+		}if (glfwGetKey(window.getWindow(), GLFW_KEY_P))
+		{
+			if (abs(speedrotate)==1)
 			{
 
 			}
 			else {
 				speedrotate--;
 			}
-		}if (glfwGetKey(window.getWindow(), GLFW_KEY_P))
+			std::cout << std::endl << speedrotate << "derece";
+			
+		}
+		if (glfwGetKey(window.getWindow(), GLFW_KEY_K))
 		{
-			if (abs(speedrotate) == 1)
-			{
-
+			
+				scalex += 0.1f;
+			
+		}if (glfwGetKey(window.getWindow(), GLFW_KEY_L))
+		{
+			if (scalex <= 0.0f) {
+				
 			}
 			else {
-				speedrotate++;
+				scalex -= 0.1f;
 			}
 		}
 		//amnskm max hýz 45 dereceymis
-		angle -= speedrotate;
+
+		angle += speedrotate;
 		rotate(vec1, angle);
-		rotate(vec2, angle);
+		scale(vec1, glm::vec2(scalex, scalex));
+
+
+
 
 
 		window.bgcolor(0.0f, 0.0f, 0.0f);
 		program.UseProgram();
 		glBindVertexArray(vao);
-		drawA(program, vec1, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
-		drawA(program, vec2, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+		drawA(program, vec1, glm::vec4(0.0f, 0.7f, 0.7f, 1.0f));
 		program.DeleteProgram();
 		window.loop_events();
 	}
