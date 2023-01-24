@@ -13,4 +13,4 @@
 - K increase scale
 - L decrease scale
 
-- Arrow Keys use for movement lmao
+- Use Arrow Keys for movement lmao
