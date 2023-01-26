@@ -14,6 +14,7 @@ float vertices[] = {
 	-length / 2,-length / 2,0.0f, 1.0f,1.0f,0.0f, 0.0f,0.0f,
 	-length / 2, length / 2,0.0f, 0.0f,1.0f,1.0f, 0.0f,1.0f
 };
+
 unsigned int indices[] = {
 	0,1,3,
 	1,2,3
@@ -25,7 +26,7 @@ void move(Character& chr1, Character::DIRECTION DIR) {
 
 int main() {
 
-	Window window(800, 600, "Arcturus Engine", GL_FALSE, 3, 3);
+	Window window(1024, 768, "Arcturus Engine", GL_FALSE, 3, 3);
 	window.StartGL();
 
 	Shader program;
@@ -86,13 +87,13 @@ int main() {
 
 	glm::mat3 aaa;
 	SoundEngine* sound = new SoundEngine();
-	sound->playSound("./sound/a.mp3");
+	sound->playSound("./sound/mesnevi.mp3");
 	system("cls");
 	float angle = 0.0f, speedr = 5.0f, speedm = 0.02f, scale = 0.4f;
 	Character chr1(speedm, 0, 0);
 
 	while (!window.Check_windowClose() && glfwGetKey(window.getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS) {
-		aaa = chr1.GetRotationMatrix() * chr1.GetScale();
+		aaa =  chr1.GetRotationMatrix()*chr1.GetScale() ;
 		if (glfwGetKey(window.getWindow(), GLFW_KEY_RIGHT))
 		{
 			move(chr1, Character::DIR_R);
