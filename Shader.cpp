@@ -78,3 +78,6 @@ void Shader::SetMat3(std::string uniform_var_name, glm::mat3 *matrix3x1) {
 unsigned int Shader::getProgram() {
 	return programID;
 }
+void Shader::SetInt(std::string uniform_var_name,int a) {
+	glUniform1i(var_List[uniform_var_name], a);
+}

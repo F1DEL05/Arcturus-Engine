@@ -22,6 +22,7 @@ public:
 	void DeleteShaders();
 	void UseProgram();
 	unsigned int getProgram();
+	void SetInt(std::string uniform_var_name,int a);
 	//------------------------
 	void ConnectUniformVariable(std::string uniform_var_name);
 	void SetVec3(std::string uniform_var_name,glm::vec3 vector3);

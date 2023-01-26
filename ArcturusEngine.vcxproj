@@ -143,12 +143,14 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SoundEngine.cpp" />
     <ClCompile Include="Source_Main.cpp" />
+    <ClCompile Include="VertexBufferObject.cpp" />
     <ClCompile Include="WindowClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.hpp" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="SoundEngine.hpp" />
+    <ClInclude Include="VertexBufferObject.hpp" />
     <ClInclude Include="WindowClass.hpp" />
   </ItemGroup>
   <ItemGroup>
